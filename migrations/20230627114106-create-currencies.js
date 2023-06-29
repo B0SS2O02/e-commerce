@@ -12,6 +12,9 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
+      index: {
+        type: Sequelize.STRING
+      },
       rate: {
         type: Sequelize.INTEGER
       },
