@@ -1,0 +1,33 @@
+<section>
+
+    <% Object.keys(list).forEach(element=> { %>
+
+        <% if(element=='image' ){%>
+            <div class="container2">
+                <h3 class="viewElements1">
+                    <%= element %>
+                </h3>
+                <img  class="viewImage viewElements2"  src="<%= list[element] %>" />
+            </div>
+
+
+            <%} else { %>
+                <div class="container2">
+                    <h3 class="viewElements1">
+                        <%= element %>
+                    </h3>
+                    <p class="viewElements2">
+
+                        <%= list[element] %>
+                    </p>
+                </div>
+                <% } %>
+
+
+
+
+
+                    <% }); %>
+
+
+</section>

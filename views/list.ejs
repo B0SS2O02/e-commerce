@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Админ-панель</title>
+    <link rel="stylesheet" type="text/css" href="/public/styles.css">
+</head>
+
+<body>
+    <%- include('components/navbar',{navbar:navbar})%>
+
+        <main>
+
+            <%- include('components/header',{title:title} ) %>
+                <%- include('components/list',{buttons:buttons,list:list,routes:routes})%>
+                    <%- include('components/footer',{footer:footer})%>
+
+
+        </main>
+</body>
+<script src="/public//script.js"></script>
+
+</html>

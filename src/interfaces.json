@@ -1,0 +1,19 @@
+{
+    "navbar": [
+        {
+            "title": "Main",
+            "link": "/admin/main"
+        },
+        {
+            "title": "Category",
+            "link": "/admin/category/list"
+        },
+        {
+            "title": "Products",
+            "link": "/admin/products/list"
+        }
+    ],
+    "footer": {
+        "text": "Все права защищены © 2023"
+    }
+}

@@ -1,0 +1,51 @@
+<section>
+    <%- include('listNavbar',{buttons, buttons}) %>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        select
+                    </th>
+                    <% Object.keys(list[0]).forEach(element=>{ %>
+                        <th>
+                            <%= element %>
+                        </th>
+                        <% }) %>
+                </tr>
+            </thead>
+            <tbody>
+                <% list.forEach(row=> {%>
+
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="id" onclick="uncheckAllExcept(this)" value="<%= row.id %>"
+                                id="">
+                        </td>
+                        <% Object.keys(row).forEach(element=> { %>
+
+                            <td onclick="redirect('<%= routes.view %><%= row.id %>')">
+                                <% if (element=='image' ) { %>
+                                    <img class='listImage' src='<%= row[element] %>' />
+                                    <% } else { %>
+                                        <%= row[element] %>
+                                            <% } %>
+
+                            </td>
+
+                            <% }) %>
+                    </tr>
+
+                    <% }); %>
+            </tbody>
+        </table>
+        <script>
+            function uncheckAllExcept(checkbox) {
+                var checkboxes = document.getElementsByName('id');
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i] !== checkbox) {
+                        checkboxes[i].checked = false;
+                    }
+                }
+            }
+        </script>
+</section>

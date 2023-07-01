@@ -1,0 +1,45 @@
+<section>
+    <form  id="formStyle" enctype="multipart/form-data" method="POST">
+        <% for (var i=0; i < form.length; i++) { %>
+            <label for="<%= form[i].name %>">
+                <%= form[i].label %>:
+            </label>
+            <% if (form[i].type==='textarea' ) { %>
+             
+                <textarea id="editor"  name="<%= form[i].name %>"
+                    placeholder="<%= form[i].placeholder %>"></textarea>
+
+                <% } else if (form[i].type==='file' ) { %>
+                    <input hidden type="file" name="<%= form[i].name %>" id="image-upload"
+                        onchange="previewImage(this)">
+                    <img id="preview-image" onclick="document.getElementById('image-upload').click()"
+                        src="/public/default.png" alt="Preview Image">
+                    <% } else if (form[i].type==='select' ) { %>
+                        <select name="<%= form[i].name %>">
+                            <% for (var j=0; j < form[i].options.length; j++) { %>
+                                <option value="<%= form[i].options[j].value %>">
+                                    <%= form[i].options[j].name %>
+                                </option>
+                                <% } %>
+                        </select>
+                        <% } else { %>
+                            <input type="<%= form[i].type %>" name="<%= form[i].name %>"
+                                placeholder="<%= form[i].placeholder %>">
+                            <% }} %>
+                                <button type="submit">Отправить</button>
+    </form>
+</section>
+<script>
+    function previewImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                document.getElementById('preview-image').src = e.target.result;
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    
+</script>

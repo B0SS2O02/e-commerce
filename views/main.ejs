@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Админ-панель</title>
+    <link rel="stylesheet" type="text/css" href="/public/styles.css">
+</head>
+
+<body>
+    <%- include('components/navbar',{navbar:navbar})%>
+
+        <main>
+
+            <%- include('components/header',{title:title} ) %>
+                <section>
+                    <h2>Добро пожаловать в админ-панель</h2>
+                    <p>Здесь вы можете управлять данными и параметрами сайта.</p>
+                </section>
+                <%- include('components/footer',{footer:footer})%>
+
+
+        </main>
+</body>
+
+</html>

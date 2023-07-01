@@ -1,0 +1,11 @@
+<div class="panel">
+    <a class="link" href="<%= buttons.create.link %>" id="createButton">
+        <%= buttons.create.title %>
+    </a>
+    <a class="link" onclick="if(getChecked()){redirect(editLink('<%= buttons.edit.link %>'))}" id="editButton">
+        <%= buttons.edit.title %>
+    </a>
+    <a class="link" onclick="if(getChecked()){Delete('<%= buttons.delete.link %>')}" id="deleteButton">
+        <%= buttons.delete.title %>
+    </a>
+</div>
