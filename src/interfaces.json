@@ -15,6 +15,10 @@
         {
             "title": "Currencies",
             "link": "/admin/currencies/list"
+        },
+        {
+            "title": "Counts",
+            "link": "/admin/counts/list"
         }
     ],
     "footer": {

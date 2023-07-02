@@ -51,11 +51,14 @@ exports.create_post = async (req, res) => {
         image: '\\' + req.file.path,
         category: req.body.category
     });
-    console.log(data)
     await models.Costs.create({
         product: data.id,
         currency: req.body.currency,
         cost: req.body.cost
+    });
+    await models.Counts.create({
+        product: data.id,
+        count: 0
     });
     res.redirect('/admin/products/list')
 }

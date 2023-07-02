@@ -1,5 +1,7 @@
 const redirect = (route) => {
-    window.location.replace(route);
+    if (route.search('none') == -1) {
+        window.location.replace(route);
+    }
 }
 
 const getChecked = () => {
@@ -11,7 +13,10 @@ const getChecked = () => {
 }
 
 const editLink = (path) => {
-    return path + getChecked()
+    if (path != 'none') {
+        redirect(path + getChecked())
+    }
+
 }
 
 
