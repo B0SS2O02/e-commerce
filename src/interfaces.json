@@ -11,6 +11,10 @@
         {
             "title": "Products",
             "link": "/admin/products/list"
+        },
+        {
+            "title": "Currencies",
+            "link": "/admin/currencies/list"
         }
     ],
     "footer": {

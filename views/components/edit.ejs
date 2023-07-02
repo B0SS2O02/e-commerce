@@ -15,7 +15,7 @@
                     <img id="preview-image" onclick="document.getElementById('image-upload').click()"
                         src="<%= form[i].src %>" alt="Preview Image">
                     <% } else if (form[i].type==='select' ) { %>
-                        <select name="<%= form[i].name %>" value="form[i].value %>">
+                        <select name="<%= form[i].name %>" value="<%= form[i].value %>">
                             <% for (var j=0; j < form[i].options.length; j++) { %>
                                 <option value="<%= form[i].options[j].value %>">
                                     <%= form[i].options[j].name %>

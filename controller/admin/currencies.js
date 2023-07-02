@@ -1,7 +1,9 @@
 const interface = require('../../src/interfaces.json')
 const models = require('../../models')
 
-const Titlebegin = 'Category'
+const Titlebegin = 'Currencies'
+const Link = '/admin/currencies/'
+
 
 exports.create_get = (req, res) => {
     res.render('create', {
@@ -9,25 +11,25 @@ exports.create_get = (req, res) => {
         title: `${Titlebegin} create`,
         footer: interface.footer,
         form: [
-            { name: 'name', label: 'Name', type: 'text', placeholder: '' },
-            { name: 'description', label: 'Description', type: 'textarea', placeholder: '' },
-            { name: "image", label: 'Изображение', type: 'file', placeholder: '' },
+            { name: 'name', label: 'Name', type: 'text', placeholder: 'Dollar' },
+            { name: 'index', label: 'Index', type: 'text', placeholder: 'USD' },
+            { name: "rate", label: 'Rate', type: 'text', placeholder: '34.5' },
         ]
     })
 }
 
 exports.create_post = (req, res) => {
-    models.Category.create({
+    models.Currencies.create({
         name: req.body.name,
-        description: req.body.description,
-        image: '\\' + req.file.path
+        index: req.body.index,
+        rate: req.body.rate,
     });
-    res.redirect('/admin/category/list')
+    res.redirect(Link + 'list')
 }
 
 exports.view = async (req, res) => {
-    let category = await models.Category.findOne({
-        attributes: ['name', "description", "image"],
+    let category = await models.Currencies  .findOne({
+        attributes: ['name', "index", 'rate'],
         where: {
             id: req.params.id
         }
@@ -41,12 +43,12 @@ exports.view = async (req, res) => {
 }
 
 exports.list = async (req, res) => {
-    let catgeories = await models.Category.findAll({
-        attributes: ['id', 'name', "image"]
+    let data = await models.Currencies.findAll({
+        attributes: ['id', 'name', "index", 'rate']
     })
     let list = [{}]
-    if (JSON.parse(JSON.stringify(catgeories)).length != 0) {
-        list = JSON.parse(JSON.stringify(catgeories))
+    if (JSON.parse(JSON.stringify(data)).length != 0) {
+        list = JSON.parse(JSON.stringify(data))
     }
     res.render('list', {
         navbar: interface.navbar,
@@ -54,20 +56,20 @@ exports.list = async (req, res) => {
         footer: interface.footer,
         buttons: {
             create: {
-                link: '/admin/category/create/',
+                link: '/admin/currencies/create',
                 title: 'Создать'
             },
             edit: {
-                link: '/admin/category/edit/',
+                link: '/admin/currencies/edit/',
                 title: 'Редактировать'
             },
             delete: {
                 title: 'Удалить',
-                link: '/admin/category/delete/',
+                link: '/admin/currencies/delete/',
             }
         },
         routes: {
-            view: '/admin/category/view/'
+            view: '/admin/currencies/view/'
         },
         list: list
 
@@ -75,21 +77,21 @@ exports.list = async (req, res) => {
 }
 
 exports.edit_get = async (req, res) => {
-    let category = await models.Category.findOne({
-        attributes: ['name', "description", "image"],
+    let data = await models.Currencies.findOne({
+        attributes: ['name', "index", 'rate'],
         where: {
             id: req.params.id
         }
     })
-    category = JSON.parse(JSON.stringify(category))
+    data = JSON.parse(JSON.stringify(data))
     res.render('edit', {
         navbar: interface.navbar,
         title: `${Titlebegin} edit`,
         footer: interface.footer,
         form: [
-            { name: 'name', label: 'Name', type: 'text', value: category.name, placeholder: '' },
-            { name: 'description', label: 'Description', value: category.description, type: 'textarea', placeholder: '' },
-            { name: "image", label: 'Изображение', src: category.image, type: 'file', placeholder: '' },
+            { name: 'name', value: data.name, label: 'Name', type: 'text', placeholder: 'Dollar' },
+            { name: 'index', value: data.index, label: 'Index', type: 'text', placeholder: 'USD' },
+            { name: "rate", value: data.rate, label: 'Rate', type: 'text', placeholder: '34.5' },
         ]
     })
 }
@@ -100,13 +102,14 @@ exports.edit_post = async (req, res) => {
         New['image'] = '\\' + req.file.path
     }
     New['name'] = req.body.name
-    New['description'] = req.body.description
-    models.Category.update(New, {
+    New['index'] = req.body.index
+    New['rate'] = req.body.rate
+    models.Currencies.update(New, {
         where: {
             id: req.params.id
         }
     })
-    res.redirect('/admin/category/view/' + req.params.id)
+    res.redirect(Link + 'view/' + req.params.id)
 }
 
 exports.delete = async (req, res) => {
@@ -115,5 +118,5 @@ exports.delete = async (req, res) => {
             id: req.params.id
         }
     })
-    res.redirect('/admin/category/list')
+    res.redirect(Link + 'list')
 }
