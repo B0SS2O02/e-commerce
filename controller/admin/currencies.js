@@ -113,7 +113,7 @@ exports.edit_post = async (req, res) => {
 }
 
 exports.delete = async (req, res) => {
-    models.Category.destroy({
+    models.Currencies.destroy({
         where: {
             id: req.params.id
         }
