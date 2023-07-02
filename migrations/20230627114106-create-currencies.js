@@ -16,7 +16,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       rate: {
-        type: Sequelize.INTEGER
+        type: Sequelize.DECIMAL
       },
       createdAt: {
         allowNull: false,
