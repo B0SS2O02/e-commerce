@@ -8,8 +8,13 @@ exports.create_get = async (req, res) => {
     let category = await models.Category.findAll({
         attributes: [['id', 'value'], 'name']
     })
+    let currencies = await models.Currencies.findAll({
+        attributes: [['id', 'value'], 'name']
+    })
+
 
     category = JSON.parse(JSON.stringify(category))
+    currencies = JSON.parse(JSON.stringify(currencies))
     console.log(category)
     res.render('create', {
         navbar: interface.navbar,
@@ -20,6 +25,13 @@ exports.create_get = async (req, res) => {
             { name: 'description', label: 'Description', type: 'textarea', placeholder: '' },
             { name: 'characteristics', label: 'Characteristics', type: 'textarea', placeholder: '' },
             { name: "image", label: 'Изображение', type: 'file', placeholder: '' },
+            { name: 'cost', label: 'Cost', type: 'number', placeholder: '' },
+            {
+                name: 'currency',
+                label: 'Currency',
+                type: 'select',
+                options: currencies
+            },
             {
                 name: 'category',
                 label: 'Category',
@@ -30,14 +42,20 @@ exports.create_get = async (req, res) => {
     })
 }
 
-exports.create_post = (req, res) => {
+exports.create_post = async (req, res) => {
     console.log(req.body)
-    models.Products.create({
+    const data = await models.Products.create({
         name: req.body.name,
         description: req.body.description,
         characteristics: req.body.characteristics,
         image: '\\' + req.file.path,
         category: req.body.category
+    });
+    console.log(data)
+    await models.Costs.create({
+        product: data.id,
+        currency: req.body.currency,
+        cost: req.body.cost
     });
     res.redirect('/admin/products/list')
 }
@@ -48,6 +66,15 @@ exports.view = async (req, res) => {
         include: [{
             model: models.Category,
             attributes: ['name']
+        }, {
+            model: models.Costs,
+            attributes: ['cost'],
+            include: [{
+                model: models.Currencies,
+                attributes: ['index']
+            }]
+
+
         }],
         where: {
             id: req.params.id
@@ -55,14 +82,18 @@ exports.view = async (req, res) => {
     })
     data = JSON.parse(JSON.stringify(data))
     let data1 = {}
+
     Object.keys(data).forEach(e => {
         if (e == 'Category') {
             data1['category'] = data[e].name
+        } else if (e == 'Costs') {
+            data1['cost'] = `${data[e][0].cost} ${data[e][0].Currency.index}`
         } else {
             data1[e] = data[e]
         }
     })
     data = data1
+    console.log(data)
 
 
     res.render('view', {
@@ -133,15 +164,24 @@ exports.list = async (req, res) => {
 exports.edit_get = async (req, res) => {
     let data = await models.Products.findOne({
         attributes: ['name', "description", 'characteristics', "image"],
+        include: [{
+            model: models.Costs,
+            attributes: ['cost']
+        }],
         where: {
             id: req.params.id
         }
     })
+
     let category = await models.Category.findAll({
         attributes: [['id', 'value'], 'name']
     })
+    let currencies = await models.Currencies.findAll({
+        attributes: [['id', 'value'], 'name']
+    })
     data = JSON.parse(JSON.stringify(data))
-    category=JSON.parse(JSON.stringify(category))
+    category = JSON.parse(JSON.stringify(category))
+    currencies = JSON.parse(JSON.stringify(currencies))
     res.render('edit', {
         navbar: interface.navbar,
         title: `${Titlebegin} edit`,
@@ -151,6 +191,13 @@ exports.edit_get = async (req, res) => {
             { name: 'description', label: 'Description', value: data.description, type: 'textarea', placeholder: '' },
             { name: 'characteristics', label: 'Characteristics', value: data.characteristics, type: 'textarea', placeholder: '' },
             { name: "image", label: 'Изображение', src: data.image, type: 'file', placeholder: '' },
+            { name: 'cost', value: data.Costs[0].cost, label: 'Cost', type: 'number', placeholder: '' },
+            {
+                name: 'currency',
+                label: 'Currency',
+                type: 'select',
+                options: currencies
+            },
             {
                 name: 'category',
                 label: 'Category',
@@ -176,6 +223,14 @@ exports.edit_post = async (req, res) => {
             id: req.params.id
         }
     })
+    await models.Costs.update({
+        currency: req.body.currency,
+        cost: req.body.cost
+    }, {
+        where: {
+            product: req.params.id
+        }
+    });
     res.redirect('/admin/products/view/' + req.params.id)
 }
 

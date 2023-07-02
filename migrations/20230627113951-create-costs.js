@@ -17,7 +17,7 @@ module.exports = {
         }
       },
       currency: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       cost: {
         type: Sequelize.DECIMAL

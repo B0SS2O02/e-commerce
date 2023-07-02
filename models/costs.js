@@ -20,6 +20,15 @@ module.exports = (sequelize, DataTypes) => {
       models.Products.hasMany(Costs, {
         foreignKey: 'product'
       })
+      Costs.belongsTo(models.Currencies, {
+        foreignKey: 'currency'
+      })
+      Costs.hasMany(models.Currencies, {
+        foreignKey: "currency"
+      })
+      models.Currencies.hasMany(Costs, {
+        foreignKey: 'currency'
+      })
     }
   }
   Costs.init({
