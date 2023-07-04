@@ -1,0 +1,189 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Story API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/category": {
+            "get": {
+                "summary": "Hemme kategoriyanyn spisogyny alyar",
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Category"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/category/{id}": {
+            "get": {
+                "summary": "Su kategoriya degishli onumleri cykaryar",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Kategoriyanyn ID-si",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Sahypanyn nomeri. default= 1",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "count",
+                        "in": "query",
+                        "description": "Sahypada bolmaly elementlerin sany. default=10",
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "$ref": "#/definitions/Category-view"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/product": {
+            "get": {
+                "summary": "Hemme onumlerin spisogyny alyar",
+                "parameters":[
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Sahypanyn nomeri. default= 1",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "count",
+                        "in": "query",
+                        "description": "Sahypada bolmaly elementlerin sany. default=10",
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Product-short"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/product/{id}": {
+            "get": {
+                "summary": "Su id den bolan onumi cykaryar",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Onumin ID-si",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Sahypanyn nomeri. default= 1",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "count",
+                        "in": "query",
+                        "description": "Sahypada bolmaly elementlerin sany. default=10",
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "schema": {
+                            "$ref": "#/definitions/Product"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Product-short": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "image": {
+                    "type": "string"
+                }
+            }
+        },
+        "Product": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "image": {
+                    "type": "string"
+                },
+                "characteristics": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "Category": {
+                    "$ref": "#/definitions/Category"
+                }
+            }
+        },
+        "Category": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "image": {
+                    "type": "string"
+                }
+            }
+        },
+        "Category-view": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "Products": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Product-short"
+                    }
+                }
+            }
+        }
+    }
+}

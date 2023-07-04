@@ -1,5 +1,6 @@
 const interface = require('../../src/interfaces.json')
 const models = require('../../models')
+const util = require('../../src/util')
 
 const Titlebegin = 'Category'
 
@@ -36,8 +37,8 @@ exports.view = async (req, res) => {
         navbar: interface.navbar,
         title: `${Titlebegin} view`,
         footer: interface.footer,
-        list: JSON.parse(JSON.stringify(category))
-    })
+        list: util.toJSON(category)
+})
 }
 
 exports.list = async (req, res) => {
@@ -45,8 +46,8 @@ exports.list = async (req, res) => {
         attributes: ['id', 'name', "image"]
     })
     let list = [{}]
-    if (JSON.parse(JSON.stringify(catgeories)).length != 0) {
-        list = JSON.parse(JSON.stringify(catgeories))
+    if (util.toJSON(catgeories).length != 0) {
+        list = util.toJSON(catgeories)
     }
     res.render('list', {
         navbar: interface.navbar,
@@ -81,7 +82,7 @@ exports.edit_get = async (req, res) => {
             id: req.params.id
         }
     })
-    category = JSON.parse(JSON.stringify(category))
+    category = util.toJSON(category)
     res.render('edit', {
         navbar: interface.navbar,
         title: `${Titlebegin} edit`,

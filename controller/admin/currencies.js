@@ -4,6 +4,7 @@ const models = require('../../models')
 const Titlebegin = 'Currencies'
 const Link = '/admin/currencies/'
 
+const util = require('../../src/util')
 
 exports.create_get = (req, res) => {
     res.render('create', {
@@ -38,7 +39,7 @@ exports.view = async (req, res) => {
         navbar: interface.navbar,
         title: `${Titlebegin} view`,
         footer: interface.footer,
-        list: JSON.parse(JSON.stringify(category))
+        list: util.toJSON(category)
     })
 }
 
@@ -47,8 +48,8 @@ exports.list = async (req, res) => {
         attributes: ['id', 'name', "index", 'rate']
     })
     let list = [{}]
-    if (JSON.parse(JSON.stringify(data)).length != 0) {
-        list = JSON.parse(JSON.stringify(data))
+    if (util.toJSON(data).length != 0) {
+        list = util.toJSON(data)
     }
     res.render('list', {
         navbar: interface.navbar,
@@ -83,7 +84,7 @@ exports.edit_get = async (req, res) => {
             id: req.params.id
         }
     })
-    data = JSON.parse(JSON.stringify(data))
+    data = util.toJSON(data)
     res.render('edit', {
         navbar: interface.navbar,
         title: `${Titlebegin} edit`,

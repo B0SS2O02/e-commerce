@@ -1,6 +1,6 @@
 const interface = require('../../src/interfaces.json')
 const models = require('../../models')
-const category = require('../../models/category')
+const util = require('../../src/util')
 
 const Titlebegin = 'Products'
 
@@ -13,8 +13,8 @@ exports.create_get = async (req, res) => {
     })
 
 
-    category = JSON.parse(JSON.stringify(category))
-    currencies = JSON.parse(JSON.stringify(currencies))
+    category = util.toJSON(category)
+    currencies = util.toJSON(currencies)
     console.log(category)
     res.render('create', {
         navbar: interface.navbar,
@@ -83,7 +83,7 @@ exports.view = async (req, res) => {
             id: req.params.id
         }
     })
-    data = JSON.parse(JSON.stringify(data))
+    data = util.toJSON(data)
     let data1 = {}
 
     Object.keys(data).forEach(e => {
@@ -118,8 +118,8 @@ exports.list = async (req, res) => {
         ]
     })
     let list = [{}]
-    if (JSON.parse(JSON.stringify(data)).length != 0) {
-        list = JSON.parse(JSON.stringify(data))
+    if (util.toJSON(data).length != 0) {
+        list = util.toJSON(data)
     }
     console.log(list)
     let list1 = []
@@ -182,9 +182,9 @@ exports.edit_get = async (req, res) => {
     let currencies = await models.Currencies.findAll({
         attributes: [['id', 'value'], 'name']
     })
-    data = JSON.parse(JSON.stringify(data))
-    category = JSON.parse(JSON.stringify(category))
-    currencies = JSON.parse(JSON.stringify(currencies))
+    data = util.toJSON(data)
+    category = util.toJSON(category)
+    currencies = util.toJSON(currencies)
     res.render('edit', {
         navbar: interface.navbar,
         title: `${Titlebegin} edit`,

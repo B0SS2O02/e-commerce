@@ -11,5 +11,9 @@ const storage = multer.diskStorage({
     }
 });
 
+exports.toJSON = (value) => {
+    return JSON.parse(JSON.stringify(value))
+}
+
 
 exports.upload = multer({ storage: storage });

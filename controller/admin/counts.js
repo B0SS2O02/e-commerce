@@ -3,6 +3,7 @@ const models = require('../../models')
 
 const Titlebegin = 'Counts'
 const Link = '/admin/counts/'
+const util = require('../../src/util')
 
 exports.list = async (req, res) => {
     let data = await models.Counts.findAll({
@@ -15,8 +16,8 @@ exports.list = async (req, res) => {
         ]
     })
     let list = [{}]
-    if (JSON.parse(JSON.stringify(data)).length != 0) {
-        list = JSON.parse(JSON.stringify(data))
+    if (util.toJSON(data).length != 0) {
+        list = util.toJSON(data)
     }
     let list1 = []
     list.forEach(e => {
@@ -63,7 +64,7 @@ exports.edit_get = async (req, res) => {
             id: req.params.id
         }
     })
-    data = JSON.parse(JSON.stringify(data))
+    data = util.toJSON(data)
     res.render('edit', {
         navbar: interface.navbar,
         title: `${Titlebegin} edit`,
