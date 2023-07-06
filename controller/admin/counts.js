@@ -33,7 +33,6 @@ exports.list = async (req, res) => {
         })
         list1.push(part)
     })
-    console.log(list1)
     list = list1
     res.render('list', {
         navbar: interface.navbar,

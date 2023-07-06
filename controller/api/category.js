@@ -11,7 +11,6 @@ exports.list = async (req, res) => {
 exports.view = async (req, res) => {
     const count = parseInt(req.query.count) || 10
     const page = parseInt(req.query.page)  || 1
-    console.log(req.query)
     let data = await models.Category.findOne({
         attributes: ['id', 'name'],
         include: [

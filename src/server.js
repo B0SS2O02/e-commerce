@@ -3,6 +3,7 @@ const app = express()
 var bodyParser = require('body-parser')
 let cookieParser = require("cookie-parser");
 const cors = require('cors');
+const models = require('../models')
 require('dotenv').config()
 
 const swaggerUi = require('swagger-ui-express');
@@ -24,7 +25,7 @@ app.use('/public', express.static('public'))
 for (const route in admin) {
     app.use('/admin/' + route, admin[route])
 }
-
+app.use('/admin', (req, res) => { res.redirect('/admin/') })
 for (const route in api) {
     app.use('/api/' + route, api[route])
 }
@@ -35,6 +36,12 @@ app.use('/test', (req, res) => {
 
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server started on port : ${process.env.PORT}`)
-})
+models.sequelize.authenticate()
+    .then(() => {
+        app.listen(process.env.PORT, () => {
+            console.log(`Server started on port : ${process.env.PORT}`)
+        })
+    })
+    .catch(err => {
+        console.error('Unable to connect to the database');
+    })

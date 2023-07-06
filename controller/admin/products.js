@@ -15,7 +15,6 @@ exports.create_get = async (req, res) => {
 
     category = util.toJSON(category)
     currencies = util.toJSON(currencies)
-    console.log(category)
     res.render('create', {
         navbar: interface.navbar,
         title: `${Titlebegin} create`,
@@ -43,7 +42,6 @@ exports.create_get = async (req, res) => {
 }
 
 exports.create_post = async (req, res) => {
-    console.log(req.body)
     const data = await models.Products.create({
         name: req.body.name,
         description: req.body.description,
@@ -96,7 +94,6 @@ exports.view = async (req, res) => {
         }
     })
     data = data1
-    console.log(data)
 
 
     res.render('view', {
@@ -121,13 +118,11 @@ exports.list = async (req, res) => {
     if (util.toJSON(data).length != 0) {
         list = util.toJSON(data)
     }
-    console.log(list)
     let list1 = []
     list.forEach(e => {
         let part = {}
         Object.keys(e).forEach(element => {
             if (element == 'Category') {
-                console.log(element)
                 part['category'] = e[element].name
             } else {
                 part[element] = e[element]
@@ -137,7 +132,6 @@ exports.list = async (req, res) => {
         list1.push(part)
     })
     list = list1
-    console.log(list)
     res.render('list', {
         navbar: interface.navbar,
         title: `${Titlebegin} list`,
@@ -216,7 +210,6 @@ exports.edit_post = async (req, res) => {
     if (req.file) {
         New['image'] = '\\' + req.file.path
     }
-    console.log(req.body.category)
     New['name'] = req.body.name
     New['description'] = req.body.description
     New['characteristics'] = req.body.characteristics

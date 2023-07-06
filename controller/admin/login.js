@@ -6,7 +6,6 @@ exports.view = (req, res) => {
 }
 
 exports.check = (req, res) => {
-    console.log(req.body)
     if (req.body.nick == process.env.nick) {
         if (req.body.password == process.env.password) {
             const token = jwt.sign(

@@ -6,10 +6,52 @@ exports.edit = async (req, res) => {
 }
 
 exports.view = async (req, res) => {
-    res.send()
+    let info = {
+        ip: req.ip,
+        device: req.headers['user-agent']
+    }
+    let data = await models.cartUser.findOne({
+        attributes: ['id'],
+        include: [
+            {
+                model: models.cart,
+                attributes: ['count'],
+                include: [{
+                    model: models.Products,
+                    attributes: ['id', 'name']
+                }]
+            }
+        ],
+        where: {
+            ip: info.ip,
+            device: info.device
+        }
+    })
+    data = util.toJSON(data)
+    res.json(data)
 }
 
 exports.delete = async (req, res) => {
+    let info = {
+        ip: req.ip,
+        device: req.headers['user-agent'],
+        cart: req.body.cart || []
+    }
+    let user = await models.cartUser.findOne({
+        where: {
+            ip: info.ip,
+            device: info.device
+        }
+    })
+    user = util.toJSON(user)
+    info.cart.forEach(element => {
+        models.cart.destroy({
+            where: {
+                user: user.id,
+                product: element.product
+            }
+        })
+    })
     res.send()
 }
 
@@ -17,7 +59,7 @@ exports.add = async (req, res) => {
     let info = {
         ip: req.ip,
         device: req.headers['user-agent'],
-        cart: req.body.cart
+        cart: req.body.cart || []
     }
     let user = await models.cartUser.findOne({
         attributes: ['id', 'ip', 'device'],
@@ -49,12 +91,28 @@ exports.add = async (req, res) => {
     })
     products = util.toJSON(products)
     products.forEach(product => {
-        let not=0
-        cart.forEach(element => {
-            if (element[0]==product) {
-
+        info.cart.forEach((element, index) => {
+            if (product.product == element.product) {
+                if (product.count != element.count) {
+                    models.cart.update({
+                        count: element.count
+                    }, {
+                        where: {
+                            user: user.id,
+                            product: element.product
+                        }
+                    })
+                }
+                info.cart.splice(index, 1)
             }
         })
     });
-    res.json([user, products])
+    info.cart.forEach(element => {
+        models.cart.create({
+            user: user.id,
+            count: element.count,
+            product: element.product
+        })
+    })
+    res.send()
 }
