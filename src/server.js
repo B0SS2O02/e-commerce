@@ -29,6 +29,10 @@ for (const route in api) {
     app.use('/api/' + route, api[route])
 }
 
+app.use('/test', (req, res) => {
+    res.json(req.headers)
+})
+
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 app.listen(process.env.PORT, () => {
