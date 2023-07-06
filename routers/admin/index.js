@@ -10,6 +10,6 @@ fs.readdirSync(__dirname, (err) => {
     }
 })
 
-// routes['*'] = require('./redirect')
+routes['*'] = require('./redirect')
 
 module.exports = routes
