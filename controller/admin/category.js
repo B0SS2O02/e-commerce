@@ -18,10 +18,17 @@ exports.create_get = (req, res) => {
 }
 
 exports.create_post = (req, res) => {
-    models.Category.create({
+    let data = {
         name: req.body.name,
         description: req.body.description,
-        image: '\\' + req.file.path
+    }
+    if (!!req.file) {
+        data['image'] = '\\' + req.file.path
+    }
+    models.Category.create({
+        name: data.name,
+        description: data.description,
+        image: data.image
     });
     res.redirect('/admin/category/list')
 }
@@ -38,7 +45,7 @@ exports.view = async (req, res) => {
         title: `${Titlebegin} view`,
         footer: interface.footer,
         list: util.toJSON(category)
-})
+    })
 }
 
 exports.list = async (req, res) => {
