@@ -42,15 +42,16 @@ exports.create_get = async (req, res) => {
 }
 
 exports.create_post = async (req, res) => {
-    let data = await models.Products.create({
+    let data = {
         name: req.body.name,
         description: req.body.description,
         characteristics: req.body.characteristics,
         category: req.body.category
-    });
+    }
     if (!!req.file) {
         data['image'] = '/' + req.file.destination + req.file.filename
     }
+    data = await models.Products.create(data)
     await models.Costs.create({
         product: data.id,
         currency: req.body.currency,
