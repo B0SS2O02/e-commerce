@@ -100,7 +100,7 @@ exports.edit_get = async (req, res) => {
 exports.edit_post = async (req, res) => {
     let New = {}
     if (req.file) {
-        New['image'] = '\\' + req.file.path
+        New['image'] = '/' + req.file.destination + req.file.filename
     }
     New['name'] = req.body.name
     New['index'] = req.body.index

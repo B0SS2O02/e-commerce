@@ -49,7 +49,7 @@ exports.create_post = async (req, res) => {
         category: req.body.category
     });
     if (!!req.file) {
-        data['image'] = '\\' + req.file.path
+        data['image'] = '/' + req.file.destination + req.file.filename
     }
     await models.Costs.create({
         product: data.id,
@@ -210,7 +210,7 @@ exports.edit_get = async (req, res) => {
 exports.edit_post = async (req, res) => {
     let New = {}
     if (req.file) {
-        New['image'] = '\\' + req.file.path
+        New['image'] = '/' + req.file.destination + req.file.filename
     }
     New['name'] = req.body.name
     New['description'] = req.body.description

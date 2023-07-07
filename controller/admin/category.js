@@ -23,7 +23,7 @@ exports.create_post = (req, res) => {
         description: req.body.description,
     }
     if (!!req.file) {
-        data['image'] = '\\' + req.file.path
+        data['image'] = '/' + req.file.destination + req.file.filename
     }
     models.Category.create({
         name: data.name,
@@ -105,7 +105,7 @@ exports.edit_get = async (req, res) => {
 exports.edit_post = async (req, res) => {
     let New = {}
     if (req.file) {
-        New['image'] = '\\' + req.file.path
+        New['image'] = '/' + req.file.destination + req.file.filename
     }
     New['name'] = req.body.name
     New['description'] = req.body.description
